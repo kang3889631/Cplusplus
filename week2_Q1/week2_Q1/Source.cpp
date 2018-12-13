@@ -1,8 +1,7 @@
 #include <iostream>
 #include <string>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <sstream>
+
 using namespace std;
 
 class Student {
@@ -63,10 +62,22 @@ int main()
 	getline(cin, mark3, ',');
 	getline(cin, mark4);
 	
+	int temp = 0;
 	st.getname(name);
-	st.getage(stoi(age));
+	stringstream geek(age);
+	geek >> temp;
+	st.getage(temp);
 	st.getid(id);
-	st.getmark(stoi(mark1), stoi(mark2), stoi(mark3), stoi(mark4));
+	int x1, x2, x3, x4 = 0;
+	stringstream m1(mark1);
+	m1 >> x1;
+	stringstream m2(mark2);
+	m2 >> x2;
+	stringstream m3(mark3);
+	m3 >> x3;
+	stringstream m4(mark4);
+	m4 >> x4;
+	st.getmark(x1, x2, x3, x4);
 	st.print();
 	return 0;
 }
