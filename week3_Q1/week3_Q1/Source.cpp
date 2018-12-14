@@ -1,3 +1,4 @@
+
 #include <iostream>
 using namespace std;
 
@@ -16,3 +17,5 @@ int main() {
 	a.GetObj() = 5;
 	cout << a.val << endl;
 }
+//& means reference. You are claiming that the returned value is the reference of *this. 
+//So when the returned value changes, its reference, i.e. *this, will also be changed.
