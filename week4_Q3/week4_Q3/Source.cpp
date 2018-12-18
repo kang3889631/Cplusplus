@@ -3,13 +3,34 @@
 using namespace std;
 // 在此处补充你的代码
 class Array2 {
-public:
+private:
 	int row = 0, column = 0;
-	int arr[100][100] = {0};
-	int i, j;
-	Array2(int r = 0, int c = 0) :row(r), column(c) {};
-	int& opertor[](const int& a){
-		return 0;
+	int *ptr;
+public:
+	Array2(int r = 0, int c = 0) :row(r), column(c) {
+		ptr = new int[row*column];
+	}
+	Array2(Array2& a) :row(a.row), column(a.column) {
+		if (ptr) delete[]ptr;
+		ptr = new int[row*column];
+		memcpy(ptr, a.ptr, sizeof(int)*row*column);
+	}
+	~Array2(){
+		if (ptr) delete[]ptr;
+	}
+	Array2& operator=(const Array2& a) {
+		if (ptr) delete[]ptr;
+		row = a.row;
+		column = a.column;
+		ptr = new int[row*column];
+		memcpy(ptr, a.ptr, sizeof(int)*row*column);
+		return *this;
+	}
+	int* operator[](const int& i) {
+		return ptr + i*column;
+	}
+	int& operator()(const int& i, const int& j) {
+		return ptr[i*column+j];
 	}
 };
 int main() {
@@ -18,7 +39,6 @@ int main() {
 	for (i = 0; i < 3; ++i)
 		for (j = 0; j < 4; j++)
 			a[i][j] = i * 4 + j;
-	/*
 	for (i = 0; i < 3; ++i) {
 		for (j = 0; j < 4; j++) {
 			cout << a(i, j) << ",";
@@ -33,6 +53,5 @@ int main() {
 		}
 		cout << endl;
 	}
-	*/
 	return 0;
 }
