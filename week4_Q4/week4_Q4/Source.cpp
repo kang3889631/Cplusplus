@@ -20,7 +20,11 @@ public:
 			ptrb[i] = b1[i] - 48;
 		}
 		c = &c1;
-		cout << c << endl;
+	}
+	int plus() {
+		int k = size_a;
+		if()
+	
 	}
 };
 
