@@ -1,33 +1,50 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
 using namespace std;
 
 class Kang {
 private:
-	int *ptra, *ptrb;
-	int size_a, size_b;
+	int *ptra, *ptrb, *ptrc;
+	int size_a, size_b, size;
 	char *c;
 public:
 	Kang(string a1, string b1, char c1) {
 		size_a = a1.size();
 		size_b = b1.size();
-		ptra = new int[size_a];
-		ptrb = new int[size_b];
-		for (int i = 0; i < size_a; i++) {
-			ptra[i] = a1[i] - 48;
+		string c(abs(size_a - size_b), '0');
+		string a, b;
+		if (size_a > size_b) {
+			 a = a1;
+			 b = c + b1;
 		}
-		for (int i = 0; i < size_b; i++) {
-			ptrb[i] = b1[i] - 48;
+		if (size_a < size_b) {
+			 a = c + a1;
+			 b = b1;
+		}
+		size = b.size();
+		ptra = new int[size];
+		ptrb = new int[size];
+
+		for (int i = 0; i < size; i++) {
+			ptra[i] = a[i] - 48;
+			ptrb[i] = b[i] - 48;
 		}
 		c = &c1;
 	}
+
 	int plus() {
-		int k = size_a;
-		if()
-	
+		ptrc = new int[size];
+		for (int i = size - 1; i >= 0; i--) {
+			ptrc[i] = (ptra[i] + ptrb[i]) % 10;
+		}
+		return *ptrc;
+	}
+	~Kang() {
+		if (ptra) delete[]ptra;
+		if (ptrb) delete[]ptrb;
 	}
 };
-
 
 int main() {
 	string a, b;
@@ -36,6 +53,5 @@ int main() {
 	cin >> c;
 	cin >> b;
 	Kang k(a, b, c);
-
 	return 0;
 }
