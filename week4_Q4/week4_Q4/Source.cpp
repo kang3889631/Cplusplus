@@ -79,6 +79,7 @@ public:
 	}
 	void times() {
 		ptrc = new int[2 * size];
+		
 
 	}
 	~Kang() {
