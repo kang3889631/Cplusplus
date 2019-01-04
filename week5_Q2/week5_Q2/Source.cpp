@@ -1,219 +1,101 @@
-#include <iostream>
-#include <iomanip>
-using namespace std;
-
-class Warrior {
-	int m_dragon = 0;
-	int m_ninja = 0;
-	int m_iceman = 0;
-	int m_lion = 0;
-	int m_wolf = 0;
-
+#include <string>
+class MyString
+{
+	char *str;
+	int size;
 public:
-	Warrior(int d, int n, int i, int l, int w, int k) :m_dragon(d), m_ninja(n), m_iceman(i), m_lion(l), m_wolf(w), m(k) {}
-	int count = 0;
-	int m = 0;
-	int dragon = 0;
-	int ninja = 0;
-	int iceman = 0;
-	int lion = 0;
-	int wolf = 0;
+	MyString(const char* s);
+	MyString() { str = new char[1]; size = 0; str[0] = '\0'; }
+	MyString(const MyString & rstr);
+	~MyString() { delete str; }
+	//
+	bool operator>(MyString & ms2);
+	bool operator<(MyString & ms2);
+	bool operator==(MyString & ms2);
+	MyString & operator=(MyString source);
+	MyString operator+(MyString source);
+	void operator+=(MyString s);
+	char & operator[](int index);
+	string operator()(int s, int l);
 
-	int build_warrior(int i);
-	int build_warrior_blue(int i);
+	//
+	friend MyString operator+(const char*s1, MyString s2);
+	friend ostream & operator<<(ostream & os, MyString &ms);
 };
-class Weapon {
-
-};
-int Warrior::build_warrior(int i) {
-	int a = 0;
-	switch (i) {
-	case 0:
-		if (m < m_iceman) {
-			return build_warrior(1);
-		}
-		iceman++;
-		m -= m_iceman;
-		count++;
-		cout << "red iceman " << count << " born with strength " << m_iceman << "," << iceman << " iceman in red headquarter" << endl;
-		a = 1;
-		break;
-
-	case 1:
-		if (m < m_lion) {
-			return build_warrior(2);
-		}
-		lion++;
-		m -= m_lion;
-		count++;
-		cout << "red lion " << count << " born with strength " << m_lion << "," << lion << " lion in red headquarter" << endl;
-		a = 2;
-		break;
-
-	case 2:
-		if (m < m_wolf) {
-			return build_warrior(3);
-		}
-		wolf++;
-		m -= m_wolf;
-		count++;
-		cout << "red wolf " << count << " born with strength " << m_wolf << "," << wolf << " wolf in red headquarter" << endl;
-		a = 3;
-		break;
-
-	case 3:
-		if (m < m_ninja) {
-			return build_warrior(4);
-		}
-		ninja++;
-		m -= m_ninja;
-		count++;
-		cout << "red ninja " << count << " born with strength " << m_ninja << "," << ninja << " ninja in red headquarter" << endl;
-		a = 4;
-		break;
-
-	case 4:
-		if (m < m_dragon) {
-			return build_warrior(0);
-		}
-		dragon++;
-		m -= m_dragon;
-		count++;
-		cout << "red dragon " << count << " born with strength " << m_dragon << "," << dragon << " dragon in red headquarter" << endl;
-		a = 0;
-		break;
-	}
-	return a;
+MyString::MyString(const char* s)
+{
+	size = strlen(s);
+	str = new char[size + 1];
+	strcpy(str, s);
 }
-int Warrior::build_warrior_blue(int i) {
-	int a = 0;
-	switch (i) {
-	case 0:
-		if (m < m_lion) {
-			return build_warrior_blue(1);
-		}
-		lion++;
-		m -= m_lion;
-		count++;
-		cout << "blue lion " << count << " born with strength " << m_lion << "," << lion << " lion in blue headquarter" << endl;
-		a = 1;
-		break;
-
-	case 1:
-		if (m < m_dragon) {
-			return build_warrior_blue(2);
-		}
-		dragon++;
-		m -= m_dragon;
-		count++;
-		cout << "blue dragon " << count << " born with strength " << m_dragon << "," << dragon << " dragon in blue headquarter" << endl;
-		a = 2;
-		break;
-
-	case 2:
-		if (m < m_ninja) {
-			return build_warrior_blue(3);
-		}
-		ninja++;
-		m -= m_ninja;
-		count++;
-		cout << "blue ninja " << count << " born with strength " << m_ninja << "," << ninja << " ninja in blue headquarter" << endl;
-		a = 3;
-		break;
-
-	case 3:
-		if (m < m_iceman) {
-			return build_warrior_blue(4);
-		}
-		iceman++;
-		m -= m_iceman;
-		count++;
-		cout << "blue iceman " << count << " born with strength " << m_iceman << "," << iceman << " iceman in blue headquarter" << endl;
-		a = 4;
-		break;
-
-	case 4:
-		if (m < m_wolf) {
-			return build_warrior_blue(0);
-		}
-		wolf++;
-		m -= m_wolf;
-		count++;
-		cout << "blue wolf " << count << " born with strength " << m_wolf << "," << wolf << " wolf in blue headquarter" << endl;
-		a = 0;
-		break;
-
-	}
-	return a;
+MyString::MyString(const MyString & rstr)
+{
+	size = strlen(rstr.str);
+	str = new char[size + 1];
+	strcpy(str, rstr.str);
 }
-int min(int d, int n, int i, int l, int w) {
-	int a = d;
-	if (n < a)
-		a = n;
-	if (i < a)
-		a = i;
-	if (l < a)
-		a = l;
-	if (w < a)
-		a = w;
-	return a;
+bool MyString::operator>(MyString & ms2)
+{
+	return strcmp(str, ms2.str)>0;
 }
-int main() {
-	int ca, n = 0, count = 1; //ca:case number| n is health
-	int l[5] = {};
-
-	cin >> ca;
-	while (ca >= count) {
-		cin >> n >> l[0] >> l[1] >> l[2] >> l[3] >> l[4];
-		cout << "Case:" << count << endl;
-		Warrior red(l[0], l[1], l[2], l[3], l[4], n);
-		Warrior blue(l[0], l[1], l[2], l[3], l[4], n);
-		int r = 0, b = 0, time = 0;
-		bool red_finish_printed = false;
-		bool blue_finish_printed = false;
-		int m = min(l[0], l[1], l[2], l[3], l[4]);
-		if (red.m < m && blue.m < m) {
-			cout << setfill('0') << setw(3) << time << " ";
-			cout << "red headquarter stops making warriors" << endl;
-			cout << setfill('0') << setw(3) << time << " ";
-			cout << "blue headquarter stops making warriors" << endl;
-		}
-		while (red.m >= m || blue.m >= m) {
-			if (red_finish_printed == false && red.m < m) {
-				cout << setfill('0') << setw(3) << time << " ";
-				cout << "red headquarter stops making warriors" << endl;
-				red_finish_printed = true;
-			}
-			else if (red.m >= m) {
-				cout << setfill('0') << setw(3) << time << " ";
-				r = red.build_warrior(r);
-			}
-
-			if (blue_finish_printed == false && blue.m < m) {
-				cout << setfill('0') << setw(3) << time << " ";
-				cout << "blue headquarter stops making warriors" << endl;
-				blue_finish_printed = true;
-			}
-			else if (blue.m >= m) {
-				cout << setfill('0') << setw(3) << time << " ";
-				b = blue.build_warrior_blue(b);
-			}
-			time++;
-			if (red_finish_printed == true && blue.m < m) {
-				cout << setfill('0') << setw(3) << time << " ";
-				cout << "blue headquarter stops making warriors" << endl;
-			}
-			if (blue_finish_printed == true && red.m < m) {
-				cout << setfill('0') << setw(3) << time << " ";
-				cout << "red headquarter stops making warriors" << endl;
-			}
-			if (red.m < m&&red_finish_printed == false && blue_finish_printed == false && blue.m < m) {
-				cout << setfill('0') << setw(3) << time << " ";
-				cout << "red headquarter stops making warriors" << endl;
-				cout << setfill('0') << setw(3) << time << " ";
-				cout << "blue headquarter stops making warriors" << endl;
-			}
-		}
-		count++;
-	}
+bool MyString::operator<(MyString & ms2)
+{
+	return ms2>*this;
+}
+bool MyString::operator==(MyString & ms2)
+{
+	return strcmp(ms2.str, str) == 0;
+}
+MyString& MyString::operator=(MyString source)
+{
+	if (*this == source)
+		return *this;
+	delete str;
+	size = strlen(source.str);
+	str = new char[size + 1];
+	strcpy(str, source.str);
+	return *this;
+}
+MyString MyString::operator+(MyString source)
+{
+	MyString temp;
+	delete temp.str;
+	temp.size = size + source.size;
+	temp.str = new char[temp.size + 1];
+	strcpy(temp.str, str);
+	strcat(temp.str, source.str);
+	return temp;
+}
+MyString operator+(const char* s1, MyString s2)
+{
+	MyString temp;
+	delete temp.str;
+	temp.size = strlen(s1) + s2.size;
+	temp.str = new char[temp.size + 1];
+	strcpy(temp.str, s1);
+	strcat(temp.str, s2.str);
+	return temp;
+}
+void MyString::operator+=(MyString s)
+{
+	size += s.size;
+	char *pt = new char[size + 1];
+	strcpy(pt, str);
+	strcat(pt, s.str);
+	delete str;
+	str = pt;
+}
+char & MyString::operator[](int index)
+{
+	return str[index];
+}
+string MyString::operator()(int s, int l)
+{
+	string autostr = str;
+	return autostr.substr(s, l);
+}
+ostream & operator<<(ostream & os, MyString &ms)
+{
+	os << ms.str;
+	return os;
 }
