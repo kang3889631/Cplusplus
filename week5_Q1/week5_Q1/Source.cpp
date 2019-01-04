@@ -22,24 +22,31 @@ public:
 		return *this;
 	}
 
-	MyString operator+(const MyString&mystring) {
+	MyString& operator+(const MyString&mystring) {
 		MyString s;
 		if (mystring.str == NULL) {
 			return *this;
 		}
-		char *a = this->str;
-		char *b = mystring.str;
 		char tmp[30] = {};
-		int size = sizeof(this->str) / 2 + 1;
-		for (int i = 0; i < size; i++) {
+		char *a = this->str;
+		int size_a = 0;
+		while (*a++ != '\0') {
+			size_a++;
+		}
+		char *b = mystring.str;
+		int size_b = 0;
+		while (*b++ != '\0') {
+			size_b++;
+		}
+		a = this->str;
+		b = mystring.str;
+		for (int i = 0; i < size_a; i++) {
 			tmp[i] = *a++;
 		}
-		cout << tmp << endl;
-		for (int i = 0; i < sizeof(mystring.str) / 2 + 1; i++) {
-			tmp[i+size] = *b++;
+		for (int i = 0; i < size_b; i++) {
+			tmp[i+size_a] = *b++;
 		}
-		cout << tmp << endl;
-		
+		s.str = tmp;
 		return s;
 	}
 
@@ -65,7 +72,8 @@ int main() {
 	MyString s1("abcd-"), s2, s3("efgh-"), s4(s1);
 	//MyString SArray[4] = { "big","me","about","take" };
 	cout << "1. " << s1 << s2 << s3 << s4 << endl;
-	s4 = s3; s3 = s1 + s3;
+	//s4 = s3; 
+	s3 = s1 + s3;
 	cout << "2. " << s1 << endl;
 	cout << "3. " << s2 << endl;
 	cout << "4. " << s3 << endl;
