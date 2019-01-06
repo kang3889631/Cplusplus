@@ -3,98 +3,48 @@
 #include <cstdlib>
 using namespace std;
 // 在此处补充你的代码
-class MyString {
-	char *str;
+class MyString :public string {
 public:
-	MyString(char *s) {
-		str = new char[sizeof(s)];
-		memcpy(str, s, sizeof(s));
-	}; 
-	MyString():str(NULL){};
-	MyString(const MyString&mystring) {
-		str = new char[sizeof(mystring.str)];
-		memcpy(str, mystring.str, sizeof(mystring.str));
-	};
-	friend ostream& operator<<(ostream&os, const MyString&mystring);
-	MyString operator=(const MyString&mystring) {
-		this->str = new char[sizeof(mystring.str)];
-		memcpy(this->str, mystring.str, sizeof(mystring.str));
-		return *this;
+	MyString() :string() {};
+	MyString(const char *s) :string(s) {};
+	MyString(const string &s) :string(s) {};
+	MyString operator()(int i, int j) {
+		return this->substr(i, j);
 	}
-
-	MyString& operator+(const MyString&mystring) {
-		MyString s;
-		if (mystring.str == NULL) {
-			return *this;
-		}
-		char tmp[30] = {};
-		char *a = this->str;
-		int size_a = 0;
-		while (*a++ != '\0') {
-			size_a++;
-		}
-		char *b = mystring.str;
-		int size_b = 0;
-		while (*b++ != '\0') {
-			size_b++;
-		}
-		a = this->str;
-		b = mystring.str;
-		for (int i = 0; i < size_a; i++) {
-			tmp[i] = *a++;
-		}
-		for (int i = 0; i < size_b; i++) {
-			tmp[i+size_a] = *b++;
-		}
-		s.str = tmp;
-		return s;
-	}
-
 };
-ostream& operator<<(ostream&os, const MyString&mystring) {
-	if (mystring.str == NULL) {
-		return os;
-	}
-	os << mystring.str;
-	return os;
+int CompareString(const void * e1, const void * e2) {
+	MyString * s1 = (MyString *)e1;
+	MyString * s2 = (MyString *)e2;
+	if (*s1 < *s2) return -1;
+	else if (*s1 == *s2) return 0;
+	else if (*s1 > *s2) return 1;
 }
-//ostream& operator<<(ostream&os, const MyString&mystring) {
-//}
-//int CompareString(const void * e1, const void * e2) {
-//	MyString * s1 = (MyString *)e1;
-//	MyString * s2 = (MyString *)e2;
-//	if (*s1 < *s2) return -1;
-//	else if (*s1 == *s2) return 0;
-//	else if (*s1 > *s2) return 1;
-//}
 int main() {
-
 	MyString s1("abcd-"), s2, s3("efgh-"), s4(s1);
-	//MyString SArray[4] = { "big","me","about","take" };
+	MyString SArray[4] = { "big","me","about","take" };
 	cout << "1. " << s1 << s2 << s3 << s4 << endl;
-	//s4 = s3; 
-	s3 = s1 + s3;
+	s4 = s3; s3 = s1 + s3;
 	cout << "2. " << s1 << endl;
 	cout << "3. " << s2 << endl;
 	cout << "4. " << s3 << endl;
 	cout << "5. " << s4 << endl;
-	//cout << "6. " << s1[2] << endl;
-	//s2 = s1; s1 = "ijkl-";
-	//s1[2] = 'A';
-	//cout << "7. " << s2 << endl;
-	//cout << "8. " << s1 << endl;
-	//s1 += "mnop";
-	//cout << "9. " << s1 << endl;
-	//s4 = "qrst-" + s2;
-	//cout << "10. " << s4 << endl;
-	//s1 = s2 + s4 + " uvw " + "xyz";
-	//cout << "11. " << s1 << endl;
-	//qsort(SArray, 4, sizeof(MyString), CompareString);
-	//for (int i = 0; i < 4; ++i)
-	//	cout << SArray[i] << endl;
-	////输出s1从下标0开始长度为4的子串
-	//cout << s1(0, 4) << endl;
-	////输出s1从下标为5开始长度为10的子串
-	//cout << s1(5, 10) << endl;
-	//return 0;
+	cout << "6. " << s1[2] << endl;
+	s2 = s1; s1 = "ijkl-";
+	s1[2] = 'A';
+	cout << "7. " << s2 << endl;
+	cout << "8. " << s1 << endl;
+	s1 += "mnop";
+	cout << "9. " << s1 << endl;
+	s4 = "qrst-" + s2;
+	cout << "10. " << s4 << endl;
+	s1 = s2 + s4 + " uvw " + "xyz";
+	cout << "11. " << s1 << endl;
+	qsort(SArray, 4, sizeof(MyString), CompareString);
+	for (int i = 0; i < 4; ++i)
+		cout << SArray[i] << endl;
+	//输出s1从下标0开始长度为4的子串
+	cout << s1(0, 4) << endl;
+	//输出s1从下标为5开始长度为10的子串
+	cout << s1(5, 10) << endl;
+	return 0;
 }
