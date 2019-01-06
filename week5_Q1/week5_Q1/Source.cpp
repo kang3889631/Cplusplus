@@ -3,6 +3,7 @@
 #include <cstdlib>
 using namespace std;
 // 在此处补充你的代码
+#include <string>
 class MyString :public string {
 public:
 	MyString() :string() {};
