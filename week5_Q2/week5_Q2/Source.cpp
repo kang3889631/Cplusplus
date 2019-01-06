@@ -21,8 +21,58 @@ public:
 
 	int build_warrior(int i);
 	int build_warrior_blue(int i);
+	void weapon(int &m, int &m_w, char c);
 };
 
+void Warrior::weapon(int &m, int &m_w, char c){
+	if (c == 'd') {
+		int weapon = count % 3;
+		float morale = (float)m / m_w;
+		cout << "It has a ";
+		if (weapon == 0)
+			cout << "sword";
+		else if (weapon == 1)
+			cout << "bomb";
+		else
+			cout << "arrow";
+		cout << ",and it's morale is " << fixed << setprecision(2) << morale << endl;
+	}
+	else if (c == 'n') {
+		cout << "It has a ";
+		int weapon1 = count % 3; 
+		if (weapon1 == 0)
+			cout << "sword";
+		else if (weapon1 == 1)
+			cout << "bomb";
+		else
+			cout << "arrow";
+		cout << " and a ";
+		int weapon2 = (count + 1) % 3;
+		if (weapon2 == 0)
+			cout << "sword";
+		else if (weapon2 == 1)
+			cout << "bomb";
+		else
+			cout << "arrow";
+		cout << endl;
+	}
+	else if (c == 'i') {
+		int weapon = count % 3;
+		cout << "It has a ";
+		if (weapon == 0)
+			cout << "sword";
+		else if (weapon == 1)
+			cout << "bomb";
+		else
+			cout << "arrow";
+		cout << endl;
+	}
+	else if (c == 'l') {
+		cout << "It's loyalty is " << m << endl;
+	}
+	else {
+	}
+}
 int Warrior::build_warrior(int i) {
 	int a = 0;
 	switch (i) {
@@ -34,6 +84,7 @@ int Warrior::build_warrior(int i) {
 		m -= m_iceman;
 		count++;
 		cout << "red iceman " << count << " born with strength " << m_iceman << "," << iceman << " iceman in red headquarter" << endl;
+		weapon(m, m_iceman, 'i');
 		a = 1;
 		break;
 
@@ -45,6 +96,7 @@ int Warrior::build_warrior(int i) {
 		m -= m_lion;
 		count++;
 		cout << "red lion " << count << " born with strength " << m_lion << "," << lion << " lion in red headquarter" << endl;
+		weapon(m, m_lion, 'l');
 		a = 2;
 		break;
 
@@ -67,6 +119,7 @@ int Warrior::build_warrior(int i) {
 		m -= m_ninja;
 		count++;
 		cout << "red ninja " << count << " born with strength " << m_ninja << "," << ninja << " ninja in red headquarter" << endl;
+		weapon(m, m_ninja, 'n');
 		a = 4;
 		break;
 
@@ -78,6 +131,7 @@ int Warrior::build_warrior(int i) {
 		m -= m_dragon;
 		count++;
 		cout << "red dragon " << count << " born with strength " << m_dragon << "," << dragon << " dragon in red headquarter" << endl;
+		weapon(m, m_dragon, 'd');
 		a = 0;
 		break;
 	}
@@ -94,6 +148,7 @@ int Warrior::build_warrior_blue(int i) {
 		m -= m_lion;
 		count++;
 		cout << "blue lion " << count << " born with strength " << m_lion << "," << lion << " lion in blue headquarter" << endl;
+		weapon(m, m_lion, 'l');
 		a = 1;
 		break;
 
@@ -105,6 +160,7 @@ int Warrior::build_warrior_blue(int i) {
 		m -= m_dragon;
 		count++;
 		cout << "blue dragon " << count << " born with strength " << m_dragon << "," << dragon << " dragon in blue headquarter" << endl;
+		weapon(m,m_dragon,'d');
 		a = 2;
 		break;
 
@@ -116,6 +172,7 @@ int Warrior::build_warrior_blue(int i) {
 		m -= m_ninja;
 		count++;
 		cout << "blue ninja " << count << " born with strength " << m_ninja << "," << ninja << " ninja in blue headquarter" << endl;
+		weapon(m, m_ninja, 'n');
 		a = 3;
 		break;
 
@@ -127,6 +184,7 @@ int Warrior::build_warrior_blue(int i) {
 		m -= m_iceman;
 		count++;
 		cout << "blue iceman " << count << " born with strength " << m_iceman << "," << iceman << " iceman in blue headquarter" << endl;
+		weapon(m, m_iceman, 'i');
 		a = 4;
 		break;
 
