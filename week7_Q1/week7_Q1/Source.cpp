@@ -6,11 +6,12 @@ class CArray3D {
 public:
 	template<class T1>
 	class CArray2D {
+	private:
 		T1 *a;
 		int i, j;
 	public:
 		CArray2D() { a = NULL; }
-		CArray2D(int m, int n) :i(m), j(n) {
+		CArray2D(const int &m, const int &n) :i(m), j(n) {
 			a = new T1[i*j];
 		}
 		T1 *operator[](const int& n) {
@@ -25,12 +26,12 @@ private:
 	CArray2D<T> **array2D;
 public:
 	CArray3D() { array2D = NULL; }
-	CArray3D(int a1, int a2, int a3) {
-		array2D = new CArray2D<T>*[a1];
+	CArray3D(const int &a1, const int &a2, const int &a3) {
+		array2D = new CArray2D<T>*[a1]; //create multiple classes: class*[n]
 		for (int i = 0; i < a1; i++)
-			array2D[i] = new CArray2D<T>(a2, a3);
+			array2D[i] = new CArray2D<T>(a2, a3); //assign new pointer's pointer points to new class(CArray2D)
 	}
-	CArray2D<T>&operator[](int i) {
+	CArray2D<T>&operator[](const int &i) {
 		return *array2D[i];
 	}
 	~CArray3D(){
