@@ -3,112 +3,139 @@
 #include <cstdlib>
 using namespace std;
 // 在此处补充你的代码
-void stringcat(char *str1, char*str2) {
-	while (*str1)
-		str1++;
-	while (*str2)
-		*str1++ = *str2++;
-}
-class MyString
+int myStrlen(const char *str);
+char *mystrcat(char *dest, char *src1, char *src2);
+char *mystrcpy(char *dest, char *src)
 {
-char *str;
-int size;
+	char *start = dest;
+	while (*src!='\0') *dest++ = *src++;
+	*dest++ = '\0';
+	return start;
+}
+char *mystrcat(char *dest, char *src1, char *src2)
+{
+	char *start = dest;
+	while (*src1 != '\0') *dest++ = *src1++;
+	while (*src2 != '\0') *dest++ = *src2++;
+	*dest++ = '\0';
+	return start;
+}
+char *mysubstr(char *dest, char *src, int location, int length)
+{
+	char *start = dest;
+	while (location-- != 0) {
+		*src++;
+	}
+	while (*src != '\0'&&length-->0) { 
+		*dest++ = *src++;
+	}
+	*dest++ = '\0';
+	return start;
+}
+
+int myStrlen(const char *str) {
+	int len = 0;
+	while (str[len] != '\0') {
+		len++;
+	}
+	return len;
+}
+class MyString {
+private:
+	char *str;
+	int size;
 public:
-MyString(const char* s);
-MyString(){str=new char[1];size=0;str[0]='\0';}
-MyString(const MyString & rstr);
-~MyString(){delete str;}
-//
-bool operator>(MyString & ms2);
-bool operator<(MyString & ms2);
-bool operator==(MyString & ms2);
-MyString & operator=(MyString source);
-MyString operator+(MyString source);
-void operator+=(MyString s);
-char & operator[](int index);
-string operator()(int s,int l);
-//
-friend MyString operator+(const char*s1,MyString s2);
-friend ostream & operator<<(ostream & os,MyString &ms);
+	MyString(char *s){
+		size = myStrlen(s);
+		//cout << "size: " << size << endl;
+		str = new char[size+1];
+		mystrcpy(str, s);
+	};
+	MyString() { str = new char[1]; size = 0; str[0] = '\0'; }
+	MyString(const MyString &s) {
+		size = myStrlen(s.str);
+		str = new char[size+1];
+		mystrcpy(str, s.str);
+	};
+	~MyString() {
+		if(str!=NULL)
+		delete str; 
+	}
+	MyString& operator=(const MyString &s);
+	MyString operator+(const MyString &s);
+	char & operator[](int index);
+	void operator+=(const MyString &s);
+	bool operator>(MyString & s);
+	bool operator<(MyString & s);
+	bool operator==(MyString & s);
+	char* operator()(int location, int length);
+	friend MyString operator+(char*s1, MyString s2);
+	friend ostream & operator<<(ostream & os, MyString &ms);
 };
-MyString::MyString(const char* s)
+ostream & operator<<(ostream & os, MyString &s)
 {
-size=strlen(s);
-str=new char [size+1];
-memcpy(str,s,strlen(s)+1);
+	if (s.str != NULL)
+		os << s.str;
+	return os;
 }
-MyString::MyString(const MyString & rstr)
+MyString operator+(char* s1, MyString s2)
 {
-size=strlen(rstr.str);
-str=new char[size+1];
-memcpy(str,rstr.str,strlen(rstr.str)+1);
+	MyString temp;
+	if(temp.str!=NULL)
+		delete temp.str;
+	temp.size = myStrlen(s1) + s2.size;
+	temp.str = new char[temp.size + 1];
+	mystrcat(temp.str, s1, s2.str);
+	return temp;
 }
-bool MyString::operator>(MyString & ms2)
+bool MyString::operator>(MyString &s)
 {
-return memcmp(str,ms2.str,sizeof(str))>0;
+	return memcmp(str, s.str,sizeof(str))>0;
 }
-bool MyString::operator<(MyString & ms2)
+bool MyString::operator<(MyString &s)
 {
-return ms2>*this;
+	return memcmp(str, s.str, sizeof(str))<0;
 }
-bool MyString::operator==(MyString & ms2)
+bool MyString::operator==(MyString &s)
 {
-return memcmp(ms2.str,str,sizeof(ms2.str))==0;
+	return memcmp(str, s.str, sizeof(str))==0;
 }
-
-MyString& MyString::operator=(MyString source)
+MyString MyString::operator+(const MyString &s)
 {
-if(*this==source) 
-return *this;
-delete str;
-size=strlen(source.str);
-str=new char[size+1];
-memcpy(str,source.str,strlen(str)+1);
-return *this;
+	MyString My;
+	if (My.str != NULL)
+		delete My.str;
+	My.size = size + myStrlen(s.str);
+	My.str = new char[My.size + 1];
+	mystrcat(My.str, str, s.str);
+	return My;
 }
-MyString MyString::operator+(MyString source)
+MyString& MyString::operator=(const MyString &s)
 {
-MyString temp;
-delete temp.str;
-temp.size=size+source.size;
-temp.str=new char[temp.size+1];
-memcpy(temp.str,str,strlen(str)+1);
-stringcat(temp.str,source.str);
-
-return temp;
-}
-MyString operator+(const char* s1,MyString s2)
-{
-MyString temp;
-delete temp.str;
-temp.size=strlen(s1)+s2.size;
-temp.str=new char [temp.size+1];
-memcpy(temp.str,s1,strlen(s1)+1);
-stringcat(temp.str,s2.str);
-return temp;
-}
-void MyString::operator+=(MyString s)
-{
-size+=s.size;
-char *pt=new char[size+1];
-memcpy(pt,str,strlen(str)+1);
-stringcat(pt,s.str);
-delete str;
-str=pt;
+	if (str == s.str)
+		return *this;
+	delete str;
+	size = myStrlen(s.str);
+	str = new char[size + 1];
+	mystrcpy(str, s.str);
+	return *this;
 }
 char & MyString::operator[](int index)
 {
-return str[index];
+	return str[index];
 }
-string MyString::operator()(int s,int l)
+void MyString::operator+=(const MyString &s)
 {
-string autostr=str;
-return autostr.substr(s,l);
+	size += s.size;
+	char *pt = new char[size + 1];
+	mystrcat(pt, str, s.str);
+	delete str;
+	str = pt;
 }
-ostream & operator<<(ostream & os,MyString &ms)
-{
-os<<ms.str;
-return os;
+char* MyString::operator()(int location, int length) {
+	char *p = new char[length + 1];
+	mysubstr(p, str, location, length);
+	return p;
 }
 
 int CompareString(const void * e1, const void * e2) {
@@ -118,6 +145,7 @@ int CompareString(const void * e1, const void * e2) {
 	else if (*s1 == *s2) return 0;
 	else if (*s1 > *s2) return 1;
 }
+
 int main() {
 	MyString s1("abcd-"), s2, s3("efgh-"), s4(s1);
 	MyString SArray[4] = { "big","me","about","take" };
@@ -142,8 +170,8 @@ int main() {
 	for (int i = 0; i < 4; ++i)
 		cout << SArray[i] << endl;
 	//输出s1从下标0开始长度为4的子串
-	//cout << s1(0, 4) << endl;
-	////输出s1从下标为5开始长度为10的子串
-	//cout << s1(5, 10) << endl;
+	cout << s1(0, 4) << endl;
+	//输出s1从下标为5开始长度为10的子串
+	cout << s1(5, 10) << endl;
 	return 0;
 }
