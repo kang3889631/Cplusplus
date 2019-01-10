@@ -15,6 +15,7 @@ inline int MyFind();    // find S N£ºÔÚµÚN¸ö×Ö·û´®ÖÐ´Ó×ó¿ªÊ¼ÕÒÑ°S×Ö·û´®£¬·µ»ØÆäµ
 inline int MyRfind();   // rfind S N£ºÔÚµÚN¸ö×Ö·û´®ÖÐ´ÓÓÒ¿ªÊ¼ÕÒÑ°S×Ö·û´®£¬·µ»ØÆäµÚÒ»´Î³öÏÖµÄÎ»ÖÃ£¬ÈôÃ»ÓÐÕÒµ½£¬·µ»Ø×Ö·û´®µÄ³¤¶È¡£
 inline void MyInsert(); // insert S N X£ºÔÚµÚN¸ö×Ö·û´®µÄµÚX¸ö×Ö·ûÎ»ÖÃÖÐ²åÈëS×Ö·û´®¡£
 inline void MyReset();  // reset S N£º½«µÚN¸ö×Ö·û´®±äÎªS¡£
+inline int myatoi();
 struct GETS
 {
 	GETS(string &s) // µÝ¹é»ñµÃÕæÕýµÄs´®
@@ -37,8 +38,11 @@ struct GETINT
 			n = MyFind();
 		else if (Commend == "rfind")
 			n = MyRfind();
-		else
-			n = atoi(Commend.c_str());
+		else {
+			char c = Commend.c_str()[0];
+			n = c - '0';
+		}
+			//n = atoi(Commend.c_str());
 	}
 };
 
@@ -58,7 +62,7 @@ struct GETSTRING
 	}
 };
 
-int wmain()
+int main()
 {
 	cin >> N;
 	for (int i = 0; i<N; i++)
@@ -88,6 +92,46 @@ int wmain()
 	return 0;
 }
 
+int mystoi(string s) {
+	int n = 0;
+	if (s.length() == 4)
+		n = (s.at(0) - '0') * 1000 + (s.at(1) - '0') * 100 + (s.at(2) - '0') * 10 + (s.at(3) - '0');
+	if (s.length() == 3)
+		n = (s.at(0) - '0') * 100 + (s.at(1) - '0') * 10 + (s.at(2) - '0');
+	if (s.length() == 2)
+		n = (s.at(0) - '0') * 10 + (s.at(1) - '0');
+	if (s.length() == 1)
+		n = (s.at(0) - '0');
+	return n;
+}
+string myto_string(int k) {
+	string s;
+	int n = k;
+	bool flag = false;
+
+	if (n / 10000 != 0) {
+		s.push_back(n / 10000 + 48);
+		flag = true;
+		n %= 10000;
+	}
+	if (n / 1000 != 0 || flag == true) {
+		s.push_back(n / 1000 + 48);
+		flag = true;
+		n %= 1000;
+	}
+	if (n / 100 != 0 || flag == true) {
+		s.push_back(n / 100 + 48);
+		flag = true;
+		n %= 100;
+	}
+	if (n / 10 != 0 || flag == true) {
+		s.push_back(n / 10 + 48);
+		flag = true;
+		n %= 10;
+	}
+	s.push_back(n + 48);
+	return s;
+}
 inline string MyCopy()
 {
 	int n, x, l;
@@ -107,12 +151,13 @@ inline string MyAdd()   // add S1 S2£ºÅÐ¶ÏS1£¬S2ÊÇ·ñÎª0-99999Ö®¼äµÄÕûÊý£¬ÈôÊÇÔò½
 		return (s1 + s2);
 	else
 	{
-		m += n;
-		char chars[8];
-		//_itoa(m, chars, 10);
-		_itoa_s(m, chars, 10);
-		//sprintf(m, chars, 10);
-		return string(chars);
+			//m += n;
+		    //char chars[8] = {0};
+			////_itoa(m, chars, 10);
+			//_itoa_s(m, chars, 10);
+			////sprintf(m, chars, 10);
+			//return string(chars);
+		return myto_string(mystoi(s1) + mystoi(s2));
 	}
 }
 
