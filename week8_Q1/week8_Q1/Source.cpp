@@ -3,19 +3,18 @@
 using namespace std;
 
 int main() {
-	vector<int>v;
-	v.push_back(1); v.push_back(2); v.push_back(3); v.push_back(4);
-	vector<int>::const_iterator i;
-	for (i = v.begin(); i != v.end(); ++i)
-		cout << *i << ",";
+	int i;
+	int a[5] = { 1,2,3,4,5 };
+	vector<int> v(5);
+	cout << v.end() - v.begin() << endl;
+	for (i = 0; i < v.size(); i++) v[i] = i;
+	v.at(4) = 100;
+	for (i = 0; i < v.size(); i++)
+		cout << v[i] << ",";
 	cout << endl;
-	vector<int>::reverse_iterator r;
-	for (r = v.rbegin(); r != v.rend(); r++)
-		cout << *r << endl;
-	vector<int>::iterator j;
-	for (j = v.begin(); j != v.end(); j++)
-		*j = 100;
-	for (i = v.begin(); i != v.end(); i++)
-		cout << *i << ",";
+	vector<int> v2(a, a + 5);
+	v2.insert(v2.begin() + 2, 13);
+	for (i = 0; i < v2.size(); i++)
+		cout << v2.at(i) << ",";
 	return 0;
 }
