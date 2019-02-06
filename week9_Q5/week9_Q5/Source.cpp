@@ -1,40 +1,51 @@
-#include <iostream>
-#include <map>
-using namespace std;
+ï»¿#include <iostream> 
+#include <map> 
+#include <cmath> 
+using namespace std; 
+
+typedef map<int, int> MAP; 
 
 int main() {
-	map<int, int> facer;
-	map<int, int>::iterator it, it1;
+	MAP::key_type strength; 
+	MAP::mapped_type id; 
+	MAP member; 
+	pair<MAP::iterator, bool> pairs;//åˆ›å»ºpairæ¨¡æ¿ç±»çš„å¯¹è±¡ 
+	member[1000000000] = 1;//æ’å…¥æ•°æ® 
+	int id1 = 0, id2 = 0, s1 = 0, s2 = 0;//è®°å½•å®åŠ›å·¦å³ä¸ä»–æœ€ä¸ºæ¥è¿‘çš„äºº 
+	id1 = 1; 
+	s1 = 1000000000; 
+	int n; 
+	cin >> n; 
+	while(n--) { 
+		cin >> id >> strength;//scanf("%d %d", &id, &strength); 
+		pairs = member.insert(MAP::value_type(strength, id));//æ’å…¥æ•°æ®å¹¶å–å¾—å…¶è¿­ä»£æŒ‡é’ˆ 
+		MAP::iterator i = pairs.first; 
+		if (i == member.begin())//å¦‚æœå…¶å®åŠ›å€¼æœ€å° 
+		{ 
+			i++; 
+			cout << id << ' ' << i->second << endl;//printf("%d %d\n", id, i->second); 
+			continue; 
+		} else { 
+			i--; 
+			id1 = i->second;//å¾—åˆ°æ¯”å…¶å®åŠ›å°çš„é‚»å±… 
+			s1 = i->first; 
+			i++; 
 
-	facer.insert({ 1000000000, 1 });  //ÏòfacerÖĞÌí¼ÓÔªËØ
-
-	int n, id, strength;
-	cin >> n;
-	while (n--) {
-		cin >> id >> strength;
-		it = facer.lower_bound(strength);
-
-		if (it != facer.begin()) {
-			it1 = it;
-			it1--;
-			if (strength - it1->first <= it->first - strength)
-				cout << id << " " << it1->second << endl;
-			else
-				cout << id << " " << it->second << endl;
-			facer[strength] = id;
-		}
-		else
-			cout << id << " " << it->second << endl;
-
-		facer[strength] = id;  //Ö»ÓĞmapÈİÆ÷¿ÉÒÔÕâÑùÓÃ£¬multimap²»ĞĞ
-	}
-
-	return 0;
+			i++; 
+			id2 = i->second;//å¾—åˆ°æ¯”å…¶å®åŠ›å°çš„é‚»å±… 
+			s2 = i->first; 
+			if (abs(s2 - strength) == abs(s1 - strength)) { 
+				if (s1 < s2) { 
+					cout << id << ' ' << id1 << endl; 
+				} else { 
+					cout << id << ' ' << id2 << endl; 
+				} 
+			} else if ((abs(s1 - strength) < abs(s2 - strength)) || i == member.end()) { 
+				cout << id << ' ' << id1 << endl; 
+			} else { 
+				cout << id << ' ' << id2 << endl; 
+			} 
+		} 
+	} 
+	return 0; 
 }
-
-/* equal_range ÓÃ·¨£º
-pair<multimap<int, int>::iterator, multimap<int, int>::iterator> range;
-range = facer.equal_range(strength);
-range.first Ïàµ±ÓÚ facer.lower_bound(strength);
-range.second Ïàµ±ÓÚ facer.upper_bound(strength);
-*/

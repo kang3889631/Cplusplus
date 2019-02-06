@@ -1,44 +1,20 @@
-/**********************
-¸ø¶¨n¸ö×Ö·û´®£¨´Ó1¿ªÊ¼±àºÅ£©£¬Ã¿¸ö×Ö·û´®ÖĞµÄ×Ö·ûÎ»ÖÃ´Ó0¿ªÊ¼±àºÅ£¬³¤¶ÈÎª1-500£¬ÏÖÓĞÈçÏÂÈô¸É²Ù×÷£º
-copy N X L£ºÈ¡³öµÚN¸ö×Ö·û´®µÚX¸ö×Ö·û¿ªÊ¼µÄ³¤¶ÈÎªLµÄ×Ö·û´®¡£
-add S1 S2£ºÅĞ¶ÏS1£¬S2ÊÇ·ñÎª0-99999Ö®¼äµÄÕûÊı£¬ÈôÊÇÔò½«Æä×ª»¯ÎªÕûÊı×ö¼Ó·¨£¬Èô²»ÊÇ£¬Ôò×÷×Ö·û´®¼Ó·¨£¬·µ»ØµÄÖµÎªÒ»×Ö·û´®¡£
-find S N£ºÔÚµÚN¸ö×Ö·û´®ÖĞ´Ó×ó¿ªÊ¼ÕÒÑ°S×Ö·û´®£¬·µ»ØÆäµÚÒ»´Î³öÏÖµÄÎ»ÖÃ£¬ÈôÃ»ÓĞÕÒµ½£¬·µ»Ø×Ö·û´®µÄ³¤¶È¡£
-rfind S N£ºÔÚµÚN¸ö×Ö·û´®ÖĞ´ÓÓÒ¿ªÊ¼ÕÒÑ°S×Ö·û´®£¬·µ»ØÆäµÚÒ»´Î³öÏÖµÄÎ»ÖÃ£¬ÈôÃ»ÓĞÕÒµ½£¬·µ»Ø×Ö·û´®µÄ³¤¶È¡£
-insert S N X£ºÔÚµÚN¸ö×Ö·û´®µÄµÚX¸ö×Ö·ûÎ»ÖÃÖĞ²åÈëS×Ö·û´®¡£
-reset S N£º½«µÚN¸ö×Ö·û´®±äÎªS¡£
-print N£º´òÓ¡Êä³öµÚN¸ö×Ö·û´®¡£
-printall£º´òÓ¡Êä³öËùÓĞ×Ö·û´®¡£
-over£º½áÊø²Ù×÷¡£
-ÆäÖĞN£¬X£¬L¿ÉÓÉfindÓërfind²Ù×÷±í´ïÊ½¹¹³É£¬S£¬S1£¬S2¿ÉÓÉcopyÓëadd²Ù×÷±í´ïÊ½¹¹³É¡£
-***********************/
-
-/**********************
-½âÌâĞÄµÃ
-S1 S2¿ÉÄÜ´óÓÚ99999
-N X L ¿ÉÄÜĞ¡ÓÚ0
-Ê¹ÓÃ¹¹Ôìº¯ÊıÖ÷ÒªÊÇÊÜµ½´óÅ£µÄÓ°Ïì ±¾À´Ö±½Óµ÷ÓÃº¯Êı¾ÍĞĞÁË¡­¡­ ¿´ÆğÀ´±È½Ï¸ß¼¶£¬µ«ÆäÊµÓĞµãÂé·³
-**********************/
-
 #include <iostream>
 #include <string>
-
-//#include <stdio.h>
-//#include <stdlib.h>
 
 using namespace std;
 
 string str[22];
 string commend;
 int N;
-inline string MyCopy(); // copy N X L£ºÈ¡³öµÚN¸ö×Ö·û´®µÚX¸ö×Ö·û¿ªÊ¼µÄ³¤¶ÈÎªLµÄ×Ö·û´®¡£
-inline string MyAdd();  // add S1 S2£ºÅĞ¶ÏS1£¬S2ÊÇ·ñÎª0-99999Ö®¼äµÄÕûÊı£¬ÈôÊÇÔò½«Æä×ª»¯ÎªÕûÊı×ö¼Ó·¨£¬Èô²»ÊÇ£¬Ôò×÷×Ö·û´®¼Ó·¨£¬·µ»ØµÄÖµÎªÒ»×Ö·û´®¡£
-inline int MyFind();    // find S N£ºÔÚµÚN¸ö×Ö·û´®ÖĞ´Ó×ó¿ªÊ¼ÕÒÑ°S×Ö·û´®£¬·µ»ØÆäµÚÒ»´Î³öÏÖµÄÎ»ÖÃ£¬ÈôÃ»ÓĞÕÒµ½£¬·µ»Ø×Ö·û´®µÄ³¤¶È¡£
-inline int MyRfind();   // rfind S N£ºÔÚµÚN¸ö×Ö·û´®ÖĞ´ÓÓÒ¿ªÊ¼ÕÒÑ°S×Ö·û´®£¬·µ»ØÆäµÚÒ»´Î³öÏÖµÄÎ»ÖÃ£¬ÈôÃ»ÓĞÕÒµ½£¬·µ»Ø×Ö·û´®µÄ³¤¶È¡£
-inline void MyInsert(); // insert S N X£ºÔÚµÚN¸ö×Ö·û´®µÄµÚX¸ö×Ö·ûÎ»ÖÃÖĞ²åÈëS×Ö·û´®¡£
-inline void MyReset();  // reset S N£º½«µÚN¸ö×Ö·û´®±äÎªS¡£
+inline string MyCopy();
+inline string MyAdd();
+inline int MyFind();
+inline int MyRfind();
+inline void MyInsert();
+inline void MyReset();
 struct GETS
 {
-	GETS(string &s) // µİ¹é»ñµÃÕæÕıµÄs´®
+	GETS(string &s)
 	{
 		cin >> s;
 		if (s == "copy")
@@ -51,7 +27,7 @@ struct GETS
 struct GETINT
 {
 	string Commend;
-	GETINT(int &n)  // µİ¹é»ñµÃÕæÕıµÄint n
+	GETINT(int &n)
 	{
 		cin >> Commend;
 		if (Commend == "find")
@@ -65,7 +41,7 @@ struct GETINT
 
 struct GETSTRING
 {
-	GETSTRING(int &m, string &s)    // µİ¹é»ñµÃÕæÕıµÄs´® ²¢ÅĞ¶ÏÆäÊÇ·ñÎªÕûÊı
+	GETSTRING(int &m, string &s)
 	{
 		GETS Gets(s);
 		int i = 0;
@@ -118,7 +94,7 @@ inline string MyCopy()
 	return (str[n].substr(x, l));
 }
 
-inline string MyAdd()   // add S1 S2£ºÅĞ¶ÏS1£¬S2ÊÇ·ñÎª0-99999Ö®¼äµÄÕûÊı£¬ÈôÊÇÔò½«Æä×ª»¯ÎªÕûÊı×ö¼Ó·¨£¬Èô²»ÊÇ£¬Ôò×÷×Ö·û´®¼Ó·¨£¬·µ»ØµÄÖµÎªÒ»×Ö·û´®¡£
+inline string MyAdd()
 {
 	string s1, s2;
 	int m = -1, n = -1;
@@ -130,15 +106,13 @@ inline string MyAdd()   // add S1 S2£ºÅĞ¶ÏS1£¬S2ÊÇ·ñÎª0-99999Ö®¼äµÄÕûÊı£¬ÈôÊÇÔò½
 	{
 		m += n;
 		char chars[8];
-		//_itoa(m, chars, 10);
 		_itoa_s(m, chars, 10);
-		//sprintf(m, chars, 10);
 		return string(chars);
 	}
 }
 
 
-inline int MyFind() // find S N£ºÔÚµÚN¸ö×Ö·û´®ÖĞ´Ó×ó¿ªÊ¼ÕÒÑ°S×Ö·û´®£¬·µ»ØÆäµÚÒ»´Î³öÏÖµÄÎ»ÖÃ£¬ÈôÃ»ÓĞÕÒµ½£¬·µ»Ø ?? ÄÄ¸ö £¿£¿ ×Ö·û´®µÄ³¤¶È¡£
+inline int MyFind()
 {
 	string s;
 	int n, value;
@@ -150,7 +124,7 @@ inline int MyFind() // find S N£ºÔÚµÚN¸ö×Ö·û´®ÖĞ´Ó×ó¿ªÊ¼ÕÒÑ°S×Ö·û´®£¬·µ»ØÆäµÚÒ»´
 	return value;
 }
 
-inline int MyRfind()    // rfind S N£ºÔÚµÚN¸ö×Ö·û´®ÖĞ´ÓÓÒ¿ªÊ¼ÕÒÑ°S×Ö·û´®£¬·µ»ØÆäµÚÒ»´Î³öÏÖµÄÎ»ÖÃ£¬ÈôÃ»ÓĞÕÒµ½£¬·µ»Ø×Ö·û´®µÄ³¤¶È¡£
+inline int MyRfind()
 {
 	string s;
 	int n, value;
@@ -162,7 +136,7 @@ inline int MyRfind()    // rfind S N£ºÔÚµÚN¸ö×Ö·û´®ÖĞ´ÓÓÒ¿ªÊ¼ÕÒÑ°S×Ö·û´®£¬·µ»ØÆä
 	return value;
 }
 
-inline void MyInsert()  // insert S N X£ºÔÚµÚN¸ö×Ö·û´®µÄµÚX¸ö×Ö·ûÎ»ÖÃÖĞ²åÈëS×Ö·û´®¡£
+inline void MyInsert()
 {
 	string s;
 	int n, x;
@@ -172,7 +146,7 @@ inline void MyInsert()  // insert S N X£ºÔÚµÚN¸ö×Ö·û´®µÄµÚX¸ö×Ö·ûÎ»ÖÃÖĞ²åÈëS×Ö·û
 	str[n].insert(x, s);
 }
 
-inline void MyReset()   // reset S N£º½«µÚN¸ö×Ö·û´®±äÎªS¡£
+inline void MyReset()
 {
 	string s;
 	int n;
